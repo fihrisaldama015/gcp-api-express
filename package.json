@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Node.js Express API",
   "main": "index.js",
+  "engines": {
+    "node": "16.14.0"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
