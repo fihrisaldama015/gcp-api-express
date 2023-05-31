@@ -4,7 +4,7 @@
   "description": "Node.js Express API",
   "main": "index.js",
   "engines": {
-    "node": "16.14.0"
+    "node": "^16.0.0"
   },
   "scripts": {
     "start": "node src/index.js",
