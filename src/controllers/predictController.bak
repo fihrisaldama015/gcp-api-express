@@ -1,0 +1,20 @@
+import { JPickle } from "jpickle";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+export const openPKL = async (req, res) => {
+  try {
+    const resolvedPath = new URL("./model_data.pkl", import.meta.url);
+    const filePath = fileURLToPath(resolvedPath);
+    // const path = dirname(filePath);
+    console.log(filePath);
+    const binary = readFileSync(filePath, "binary");
+    const data = JPickle.loads(binary);
+    console.log(data);
+    res.status(200).json({ message: "Success open pkl file" });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+    console.log(error);
+  }
+};
