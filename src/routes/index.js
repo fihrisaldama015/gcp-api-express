@@ -31,6 +31,11 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/ip", (req, res) => {
+  const ipAddress = req.socket.remoteAddress;
+  res.send(ipAddress);
+});
+
 router.get("/food", getFoods);
 router.get("/food/:id", getFoodById);
 router.get("/medicine", getMedicines);
