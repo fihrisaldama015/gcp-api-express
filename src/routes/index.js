@@ -30,6 +30,10 @@ const {
   deleteBookmarkFood,
   deleteBookmarkMedicine,
 } = require("../controllers/bookmarkController.js");
+const {
+  getUserSearchHistory,
+  deleteSearchHistory,
+} = require("../controllers/searchHistoryController.js");
 const { verifyToken } = require("../middlewares.js");
 
 const router = express.Router();
@@ -79,5 +83,9 @@ router.delete("/user/:id/bookmark/medicine", deleteBookmarkMedicine);
 // DISEASE PREDICTION
 router.get("/predict", LoadModel);
 router.post("/predict", PredictDisease);
+
+// SEARCH HISTORY
+router.get("/user/:id/history", getUserSearchHistory);
+router.delete("/user/:id/history/:id_search", deleteSearchHistory);
 
 module.exports = router;
