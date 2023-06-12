@@ -1,13 +1,20 @@
 const Sequelize = require("sequelize");
 
-const db = new Sequelize("getbetter", "root", "walangkecek123", {
-  dialect: "mysql",
-  host: '/cloudsql/api-tes-388313:asia-southeast1:getbettermysql',
-  timestamps: false,
-  dialectOptions: {
-    socketPath: '/cloudsql/api-tes-388313:asia-southeast1:getbettermysql'
-},
-});
+const db = new Sequelize(
+  "getbetter",
+  "root",
+  process.env.NODE_ENV === "production" ? process.env.DB_PASSWORD : "",
+  {
+    dialect: "mysql",
+    host:
+      process.env.NODE_ENV === "production" ? process.env.DB_HOST : "localhost",
+    timestamps: process.env.NODE_ENV === "production" ? false : null,
+    dialectOptions: {
+      socketPath:
+        process.env.NODE_ENV === "production" ? process.env.DB_SOCKET_PATH : "",
+    },
+  }
+);
 
 const connectDB = async () => {
   try {
@@ -21,5 +28,3 @@ const connectDB = async () => {
 connectDB();
 
 module.exports = db;
-
-
