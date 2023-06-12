@@ -2,6 +2,9 @@ const Medicine = require("../models/medicineModel.js");
 const Food = require("../models/foodModel.js");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const {
+  setSearchHistory,
+} = require("../controllers/searchHistoryController.js");
 
 const search = async (req, res) => {
   const searchTerm = req.query.key;
@@ -16,7 +19,7 @@ const search = async (req, res) => {
       food = await Food.findAll();
       return res.status(200).json({ disease, medicine, food });
     }
-
+    setSearchHistory(req, res, searchTerm);
     disease = await Medicine.findOne({
       where: {
         disease: { [Op.like]: `%${searchTerm}%` },
@@ -33,7 +36,6 @@ const search = async (req, res) => {
       diseaseFound = false;
     }
 
-    console.log({ disease: disease.disease });
     medicine = await Medicine.findAll({
       where: {
         [Op.or]: !diseaseFound
