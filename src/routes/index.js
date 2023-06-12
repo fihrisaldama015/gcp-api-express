@@ -19,7 +19,17 @@ const {
   getUserById,
   deleteUser,
 } = require("../controllers/userController.js");
-const { openPKL } = require("../controllers/predictController.js");
+const {
+  PredictDisease,
+  LoadModel,
+} = require("../controllers/predictController.js");
+const {
+  getUserBookmarks,
+  bookmarkFood,
+  bookmarkMedicine,
+  deleteBookmarkFood,
+  deleteBookmarkMedicine,
+} = require("../controllers/bookmarkController.js");
 const { verifyToken } = require("../middlewares.js");
 
 const router = express.Router();
@@ -36,13 +46,20 @@ router.get("/ip", (req, res) => {
   res.send(ipAddress);
 });
 
+// FOOD
 router.get("/food", getFoods);
 router.get("/food/:id", getFoodById);
+
+// MEDICINE
 router.get("/medicine", getMedicines);
 router.get("/medicine/:id", getMedicineById);
+
+// SEARCH
 router.get("/search/food", searchFood);
 router.get("/search/medicine", searchMedicine);
 router.get("/search", search);
+
+// USER
 router.get("/user", getUsers);
 router.get("/user/:id", getUserById);
 router.post("/user/register", Register);
@@ -52,6 +69,15 @@ router.put("/user/changepassword/:id", editUserPassword);
 router.put("/user/:id", editUserProfile);
 router.delete("/user/:id", deleteUser);
 
-router.get("/predict", openPKL);
+// BOOKMARK
+router.get("/user/:id/bookmark", getUserBookmarks);
+router.post("/user/:id/bookmark/food", bookmarkFood);
+router.post("/user/:id/bookmark/medicine", bookmarkMedicine);
+router.delete("/user/:id/bookmark/food", deleteBookmarkFood);
+router.delete("/user/:id/bookmark/medicine", deleteBookmarkMedicine);
+
+// DISEASE PREDICTION
+router.get("/predict", LoadModel);
+router.post("/predict", PredictDisease);
 
 module.exports = router;
