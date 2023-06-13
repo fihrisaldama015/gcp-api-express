@@ -18,6 +18,7 @@ const {
   editUserProfile,
   getUserById,
   deleteUser,
+  getLoggedUser,
 } = require("../controllers/userController.js");
 const {
   PredictDisease,
@@ -66,6 +67,7 @@ router.get("/search", search);
 // USER
 router.get("/user", getUsers);
 router.get("/user/:id", getUserById);
+router.get("/data/user", getLoggedUser);
 router.post("/user/register", Register);
 router.post("/user/login", Login);
 router.post("/user/logout", Logout);

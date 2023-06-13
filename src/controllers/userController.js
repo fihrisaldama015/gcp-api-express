@@ -197,6 +197,22 @@ const editUserProfile = async (req, res) => {
   }
 };
 
+const getLoggedUser = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res.status(400).json({ message: "User not logged in" });
+    const user = await Users.findOne({ where: { refreshToken } });
+    if (!user)
+      return res
+        .status(403)
+        .json({ message: "Forbidden | User not logged in" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   Login,
   Register,
@@ -206,4 +222,5 @@ module.exports = {
   editUserPassword,
   editUserProfile,
   deleteUser,
+  getLoggedUser,
 };
