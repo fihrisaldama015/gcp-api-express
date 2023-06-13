@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Jun 2023 pada 14.39
+-- Waktu pembuatan: 13 Jun 2023 pada 05.43
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.1.2
 
@@ -20,6 +20,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `getbetter`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bookmark_food`
+--
+
+CREATE TABLE `bookmark_food` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_food` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `bookmark_food`
+--
+
+INSERT INTO `bookmark_food` (`id`, `id_user`, `id_food`) VALUES
+(2, 1, 6),
+(3, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bookmark_medicine`
+--
+
+CREATE TABLE `bookmark_medicine` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_medicine` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `bookmark_medicine`
+--
+
+INSERT INTO `bookmark_medicine` (`id`, `id_user`, `id_medicine`) VALUES
+(1, 1, 110),
+(2, 1, 67);
 
 -- --------------------------------------------------------
 
@@ -248,6 +288,25 @@ INSERT INTO `medicine` (`drug_id`, `disease`, `medical_condition_description`, `
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `search_history`
+--
+
+CREATE TABLE `search_history` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `keyword` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `search_history`
+--
+
+INSERT INTO `search_history` (`id`, `id_user`, `keyword`) VALUES
+(2, 1, 'acne');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -270,12 +329,28 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `user_name`, `email`, `phone`, `tempat_lahir`, `tgl_lahir`, `password`, `refreshToken`, `createdAt`, `updatedAt`) VALUES
-(1, 'nama', 'your_username', 'test123@gmail.com', '083275111111', 'Surabaya', '2004-02-18', '$2b$10$fvnJA7rCq5OAOih7ZQcqAOJYpbZJEL4.keGeCgSX7KXW2rf1mdWk2', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJuYW1lIjoibmFtYSIsImVtYWlsIjoidGVzdDEyM0BnbWFpbC5jb20iLCJpYXQiOjE2ODYwNDY2NzAsImV4cCI6MTY4NjEzMzA3MH0.XBRguz743idLAC9yS3_tC2mOeTG6tNz6D_MVaXasOk8', '2023-06-03 16:47:01', '2023-06-07 05:44:56'),
+(1, 'nama', 'your_username', 'test123@gmail.com', '083275111111', 'Surabaya', '2004-02-18', '$2b$10$fvnJA7rCq5OAOih7ZQcqAOJYpbZJEL4.keGeCgSX7KXW2rf1mdWk2', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJuYW1lIjoibmFtYSIsImVtYWlsIjoidGVzdDEyM0BnbWFpbC5jb20iLCJpYXQiOjE2ODY2MjU2OTgsImV4cCI6MTY4NjcxMjA5OH0.zXOdWmeyTcGY1naVL8cufW84IjP2MZz7q2ogy1xPv6M', '2023-06-03 16:47:01', '2023-06-13 03:08:18'),
 (2, 'namee', 'your_username', 'test@gmail.com', '', '', NULL, '$2b$10$ormeWd6NpgbNOQwf/1LjUOcIsblZSSicGRZXV6BD6Y1.Sk1O94FsK', NULL, '2023-06-07 05:20:07', '2023-06-07 06:20:21');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `bookmark_food`
+--
+ALTER TABLE `bookmark_food`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_food_user` (`id_user`),
+  ADD KEY `fk_food_id` (`id_food`);
+
+--
+-- Indeks untuk tabel `bookmark_medicine`
+--
+ALTER TABLE `bookmark_medicine`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_medicine_user` (`id_user`),
+  ADD KEY `fk_medicine_id` (`id_medicine`);
 
 --
 -- Indeks untuk tabel `food`
@@ -290,6 +365,13 @@ ALTER TABLE `medicine`
   ADD PRIMARY KEY (`drug_id`);
 
 --
+-- Indeks untuk tabel `search_history`
+--
+ALTER TABLE `search_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_search_user` (`id_user`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -298,6 +380,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `bookmark_food`
+--
+ALTER TABLE `bookmark_food`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `bookmark_medicine`
+--
+ALTER TABLE `bookmark_medicine`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `food`
@@ -312,10 +406,40 @@ ALTER TABLE `medicine`
   MODIFY `drug_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
+-- AUTO_INCREMENT untuk tabel `search_history`
+--
+ALTER TABLE `search_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `bookmark_food`
+--
+ALTER TABLE `bookmark_food`
+  ADD CONSTRAINT `fk_food_id` FOREIGN KEY (`id_food`) REFERENCES `food` (`food_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_food_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `bookmark_medicine`
+--
+ALTER TABLE `bookmark_medicine`
+  ADD CONSTRAINT `fk_medicine_id` FOREIGN KEY (`id_medicine`) REFERENCES `medicine` (`drug_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_medicine_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `search_history`
+--
+ALTER TABLE `search_history`
+  ADD CONSTRAINT `fk_search_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
